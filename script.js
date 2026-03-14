@@ -106,10 +106,11 @@ function checkGuess() {
     });
 
     if (currentGuess === SECRET_WORD) {
-        message.innerText = "Tebrikler Zeynep! 🎉";
+        message.innerText = "Tebrikler Doğru kelime! 🎉";
+        message.innerText="Şaka bir yana ☺ doğum günün kutlu olsun nice sağlıklı mutlu senelere küçük zeynep 🥳🎈✨🎉🎊🎂 ";
     } else {
         guesses.push(currentGuess);
         currentGuess = "";
-        if (guesses.length === 6) message.innerText = "Yeniden Dene! Kelime: " + SECRET_WORD;
+        if (guesses.length === 6) message.innerText = "Yeniden Dene! Kelime: " + SECRET_WORD + "Şaka bir yana ☺ doğum günün kutlu olsun nice sağlıklı mutlu senelere küçük zeynep 🥳🎈✨🎉🎊🎂 ";
     }
 }
