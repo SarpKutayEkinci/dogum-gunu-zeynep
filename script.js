@@ -37,6 +37,7 @@ function initBoard() {
         tile.classList.add("tile");
         tile.id = "tile-" + i;
         board.appendChild(tile);
+        createKeyboard();
     }
 }
 
@@ -86,3 +87,54 @@ function checkGuess() {
         if (guesses.length === 6) message.innerText = "Kelime: " + SECRET_WORD;
     }
 }
+const keyboardContainer = document.getElementById('keyboard-container');
+
+const KEYS = [
+    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Ğ", "Ü"],
+    ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ş", "İ"],
+    ["ENTER", "Z", "X", "C", "V", "B", "N", "M", "Ö", "Ç", "BACK"]
+];
+
+function createKeyboard() {
+    keyboardContainer.innerHTML = "";
+    KEYS.forEach(row => {
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "keyboard-row";
+        
+        row.forEach(key => {
+            const button = document.createElement("button");
+            button.innerText = key;
+            button.className = "key";
+            if (key === "ENTER" || key === "BACK") button.classList.add("wide-key");
+            
+            button.onclick = () => handleInput(key);
+            rowDiv.appendChild(button);
+        });
+        keyboardContainer.appendChild(rowDiv);
+    });
+}
+
+// Klavyeden veya ekrandan gelen girişi tek merkezden yönetelim
+function handleInput(key) {
+    if (key === "ENTER") {
+        if (currentGuess.length === 5) checkGuess();
+    } else if (key === "BACK" || key === "Backspace") {
+        currentGuess = currentGuess.slice(0, -1);
+        updateBoard();
+    } else if (currentGuess.length < 5 && key.length === 1) {
+        currentGuess += key.toLocaleUpperCase('tr-TR');
+        updateBoard();
+    }
+}
+
+// Mevcut window.onkeydown fonksiyonunu da şununla değiştir:
+window.onkeydown = (e) => {
+    if (wordleModal.style.display !== "block") return;
+    let key = e.key;
+    if (key === "Enter") key = "ENTER";
+    if (key === "Backspace") key = "BACK";
+    handleInput(key);
+};
+
+// initBoard fonksiyonunun en sonuna şunu ekle:
+// createKeyboard();
