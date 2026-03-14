@@ -107,19 +107,19 @@ function checkGuess() {
 
     if (currentGuess === SECRET_WORD) {
         message.innerText = "Tebrikler Doğru kelime! 🎉";
-        message.innerText="Şaka bir yana ☺ doğum günün kutlu olsun nice sağlıklı mutlu senelere küçük zeynep 🥳🎈✨🎉🎊🎂 ";
+        message.innerText="Şaka bir yana 😅🤭 doğum günün kutlu olsun nice sağlıklı mutlu senelere küçük zeynep 🥳🎈✨🎉🎊🎂 ";
         launchConfetti();
     } else {
         guesses.push(currentGuess);
         currentGuess = "";
-        if (guesses.length === 6) message.innerText = "Yeniden Dene! Kelime: " + SECRET_WORD + "Şaka bir yana ☺ doğum günün kutlu olsun nice sağlıklı mutlu senelere küçük zeynep 🥳🎈✨🎉🎊🎂 ";
+        if (guesses.length === 6) message.innerText = "Bilemedin PUHAHAHAHA Kelime: " + SECRET_WORD + " Şaka bir yana 😅🤭 doğum günün kutlu olsun nice sağlıklı mutlu senelere küçük zeynep 🥳🎈✨🎉🎊🎂 ";
         launchConfetti();
     }
 }
 // Sayfa yüklendiğinde çalışacak kısım
 window.onload = () => {
     // 1. Duyuru Mesajı
-    alert("İyi ki doğdun Zeynep! Senin için küçük bir sürpriz hazırladım... ✨");
+    alert("İyi ki doğdun Zeynep! 🤩🥳🎈✨🎂");
 
     // 2. Konfeti Patlatma
     launchConfetti();
