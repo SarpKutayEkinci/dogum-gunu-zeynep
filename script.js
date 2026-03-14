@@ -108,9 +108,51 @@ function checkGuess() {
     if (currentGuess === SECRET_WORD) {
         message.innerText = "Tebrikler Doğru kelime! 🎉";
         message.innerText="Şaka bir yana ☺ doğum günün kutlu olsun nice sağlıklı mutlu senelere küçük zeynep 🥳🎈✨🎉🎊🎂 ";
+        launchConfetti();
     } else {
         guesses.push(currentGuess);
         currentGuess = "";
         if (guesses.length === 6) message.innerText = "Yeniden Dene! Kelime: " + SECRET_WORD + "Şaka bir yana ☺ doğum günün kutlu olsun nice sağlıklı mutlu senelere küçük zeynep 🥳🎈✨🎉🎊🎂 ";
+        launchConfetti();
     }
 }
+// Sayfa yüklendiğinde çalışacak kısım
+window.onload = () => {
+    // 1. Duyuru Mesajı
+    alert("İyi ki doğdun Zeynep! Senin için küçük bir sürpriz hazırladım... ✨");
+
+    // 2. Konfeti Patlatma
+    launchConfetti();
+};
+
+function launchConfetti() {
+    var duration = 3 * 1000;
+    var end = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 3,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#ff69b4', '#ffffff', '#538d4e'] // Pembe, Beyaz, Yeşil
+        });
+        confetti({
+            particleCount: 3,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#ff69b4', '#ffffff', '#538d4e']
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    }());
+}
+
+// Wordle kazanıldığında da konfeti patlaması için checkGuess içine ekleyebilirsin
+// if (currentGuess === SECRET_WORD) {
+//    launchConfetti();
+//    ...
+// }
