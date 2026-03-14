@@ -6,7 +6,7 @@ const swiper = new Swiper('.swiper', {
 });
 
 // --- Wordle Ayarları ---
-const SECRET_WORD = "ZENCİ"; // Hedef kelime (Bilgisayar müh. öğrencisi olduğun için ufak bir selam)
+const SECRET_WORD = "ZENCİ"; 
 let currentGuess = "";
 let guesses = [];
 
@@ -16,17 +16,19 @@ const closeModal = document.getElementById('closeModal');
 const board = document.getElementById('wordle-board');
 const message = document.getElementById('message');
 
-// Modalı Aç/Kapat
+const KEYS = [
+    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Ğ", "Ü"],
+    ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ş", "İ"],
+    ["ENTER", "Z", "X", "C", "V", "B", "N", "M", "Ö", "Ç", "BACK"]
+];
+
 wordleBtn.onclick = () => {
     wordleModal.style.display = "block";
     initBoard();
 };
 
-closeModal.onclick = () => {
-    wordleModal.style.display = "none";
-};
+closeModal.onclick = () => { wordleModal.style.display = "none"; };
 
-// Oyun Tahtasını Hazırla
 function initBoard() {
     board.innerHTML = "";
     guesses = [];
@@ -37,24 +39,47 @@ function initBoard() {
         tile.classList.add("tile");
         tile.id = "tile-" + i;
         board.appendChild(tile);
-        
     }
     createKeyboard();
 }
 
-// Klavye Girişleri
-window.onkeydown = (e) => {
-    if (wordleModal.style.display !== "block") return;
+function createKeyboard() {
+    const container = document.getElementById('keyboard-container');
+    if (!container) return;
+    container.innerHTML = "";
+    KEYS.forEach(row => {
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "keyboard-row";
+        row.forEach(key => {
+            const button = document.createElement("button");
+            button.innerText = key;
+            button.className = "key";
+            if (key === "ENTER" || key === "BACK") button.classList.add("wide-key");
+            button.onclick = () => handleInput(key);
+            rowDiv.appendChild(button);
+        });
+        container.appendChild(rowDiv);
+    });
+}
 
-    if (e.key === "Enter") {
+function handleInput(key) {
+    if (key === "ENTER") {
         if (currentGuess.length === 5) checkGuess();
-    } else if (e.key === "Backspace") {
+    } else if (key === "BACK" || key === "Backspace") {
         currentGuess = currentGuess.slice(0, -1);
         updateBoard();
-    } else if (currentGuess.length < 5 && /^[a-zA-ZçğıöşüÇĞİÖŞÜ]$/.test(e.key)) {
-        currentGuess += e.key.toLocaleUpperCase('tr-TR');
+    } else if (currentGuess.length < 5 && key.length === 1 && /^[a-zA-ZçğıöşüÇĞİÖŞÜ]$/.test(key)) {
+        currentGuess += key.toLocaleUpperCase('tr-TR');
         updateBoard();
     }
+}
+
+window.onkeydown = (e) => {
+    if (wordleModal.style.display !== "block") return;
+    let key = e.key;
+    if (key === "Enter") key = "ENTER";
+    if (key === "Backspace") key = "BACK";
+    handleInput(key);
 };
 
 function updateBoard() {
@@ -72,70 +97,19 @@ function checkGuess() {
     guessArray.forEach((letter, i) => {
         let tile = document.getElementById("tile-" + (rowOffset + i));
         if (letter === SECRET_WORD[i]) {
-            tile.style.backgroundColor = "#538d4e"; // Doğru harf doğru yer
+            tile.style.backgroundColor = "#538d4e";
         } else if (SECRET_WORD.includes(letter)) {
-            tile.style.backgroundColor = "#b59f3b"; // Doğru harf yanlış yer
+            tile.style.backgroundColor = "#b59f3b";
         } else {
-            tile.style.backgroundColor = "#3a3a3c"; // Harf yok
+            tile.style.backgroundColor = "#3a3a3c";
         }
     });
 
     if (currentGuess === SECRET_WORD) {
-        message.innerText = "Tebrikler! 🎉";
+        message.innerText = "Tebrikler Zeynep! 🎉";
     } else {
         guesses.push(currentGuess);
         currentGuess = "";
-        if (guesses.length === 6) message.innerText = "Kelime: " + SECRET_WORD;
+        if (guesses.length === 6) message.innerText = "Yeniden Dene! Kelime: " + SECRET_WORD;
     }
 }
-const keyboardContainer = document.getElementById('keyboard-container');
-
-const KEYS = [
-    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Ğ", "Ü"],
-    ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ş", "İ"],
-    ["ENTER", "Z", "X", "C", "V", "B", "N", "M", "Ö", "Ç", "BACK"]
-];
-
-function createKeyboard() {
-    keyboardContainer.innerHTML = "";
-    KEYS.forEach(row => {
-        const rowDiv = document.createElement("div");
-        rowDiv.className = "keyboard-row";
-        
-        row.forEach(key => {
-            const button = document.createElement("button");
-            button.innerText = key;
-            button.className = "key";
-            if (key === "ENTER" || key === "BACK") button.classList.add("wide-key");
-            
-            button.onclick = () => handleInput(key);
-            rowDiv.appendChild(button);
-        });
-        keyboardContainer.appendChild(rowDiv);
-    });
-}
-
-// Klavyeden veya ekrandan gelen girişi tek merkezden yönetelim
-function handleInput(key) {
-    if (key === "ENTER") {
-        if (currentGuess.length === 5) checkGuess();
-    } else if (key === "BACK" || key === "Backspace") {
-        currentGuess = currentGuess.slice(0, -1);
-        updateBoard();
-    } else if (currentGuess.length < 5 && key.length === 1) {
-        currentGuess += key.toLocaleUpperCase('tr-TR');
-        updateBoard();
-    }
-}
-
-// Mevcut window.onkeydown fonksiyonunu da şununla değiştir:
-window.onkeydown = (e) => {
-    if (wordleModal.style.display !== "block") return;
-    let key = e.key;
-    if (key === "Enter") key = "ENTER";
-    if (key === "Backspace") key = "BACK";
-    handleInput(key);
-};
-
-// initBoard fonksiyonunun en sonuna şunu ekle:
-// createKeyboard();
