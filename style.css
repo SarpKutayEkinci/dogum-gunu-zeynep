@@ -11,17 +11,22 @@ body {
 }
 
 /* Swiper Boyutları */
+/* Swiper kutusunun boyutunu belirle */
 .swiper {
-    width: 90%;
-    max-width: 800px;
-    height: 400px;
+    width: 95%;          /* Ekranın %95'ini kaplasın */
+    max-width: 800px;    /* Ama 800px'den geniş olmasın */
+    height: 500px;       /* Yüksekliği burayı değiştirerek ayarlayabilirsin */
     border-radius: 15px;
+    margin: 20px auto;   /* Ortalamak için */
 }
 
+/* Fotoğrafların kutuya nasıl yerleşeceğini belirle */
 .swiper-slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* Fotoğrafın tamamını kesmeden kutunun içine sığdırır */
+    /* Not: Eğer boşluk kalsın istemiyorsan 'cover' yapabilirsin ama fotoğrafın kenarları kesilebilir. */
+    background-color: #000; /* Fotoğrafın arkasında kalan boşlukları siyah yapar */
 }
 
 /* Buton Alanı */
