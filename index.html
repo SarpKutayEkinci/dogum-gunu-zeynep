@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foto Galeri & Wordle</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="assets/photo1.jpeg" alt="Foto 1"></div>
+            <div class="swiper-slide"><img src="assets/photo2.jpeg" alt="Foto 2"></div>
+            <div class="swiper-slide"><img src="assets/photo3.jpeg" alt="Foto 3"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+    <div class="button-container">
+        <button id="wordleBtn">Wordle Oyna</button>
+    </div>
+
+    <div id="wordleModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h2>WORDLE</h2>
+            <div id="wordle-board"></div>
+            <p id="message"></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
