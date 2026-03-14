@@ -37,8 +37,9 @@ function initBoard() {
         tile.classList.add("tile");
         tile.id = "tile-" + i;
         board.appendChild(tile);
-        createKeyboard();
+        
     }
+    createKeyboard();
 }
 
 // Klavye Girişleri
